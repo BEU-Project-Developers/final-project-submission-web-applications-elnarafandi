@@ -1,0 +1,66 @@
+﻿@model RegisterVM
+
+
+@{
+    ViewData["Title"] = "Sign in Page";
+}
+
+
+<div style="display: flex; justify-content: center; align-items: center; min-height: 100vh;">
+    <div style="width: 100%; max-width: 450px; background-color: #fff; padding: 30px; border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+        <h2 style="text-align: center; margin-bottom: 30px; color: #333;">Register</h2>
+
+        <form method="post" asp-action="Register">
+
+            <div style="color: red; margin-bottom: 10px;">
+                <div class="text-danger" asp-validation-summary="All"></div>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <label for="FullName" style="display: block; margin-bottom: 6px; font-weight: bold;">Fullname</label>
+                <input type="text" asp-for="FullName"
+                       style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;" />
+                <span asp-validation-for="FullName" style="color: red; font-size: 0.9rem;"></span>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <label for="UserName" style="display: block; margin-bottom: 6px; font-weight: bold;">Username</label>
+                <input type="text" asp-for="UserName"
+                       style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;" />
+                <span asp-validation-for="UserName" style="color: red; font-size: 0.9rem;"></span>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <label for="Email" style="display: block; margin-bottom: 6px; font-weight: bold;">Email address</label>
+                <input type="email" asp-for="Email"
+                       style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;" />
+                <span asp-validation-for="Email" style="color: red; font-size: 0.9rem;"></span>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <label for="Password" style="display: block; margin-bottom: 6px; font-weight: bold;">Password</label>
+                <input type="password" asp-for="Password"
+                       style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;" />
+                <span asp-validation-for="Password" style="color: red; font-size: 0.9rem;"></span>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <label for="ConfirmPassword" style="display: block; margin-bottom: 6px; font-weight: bold;">Confirm Password</label>
+                <input type="password" asp-for="ConfirmPassword"
+                       style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;" />
+                <span asp-validation-for="ConfirmPassword" style="color: red; font-size: 0.9rem;"></span>
+            </div>
+
+            <div style="text-align: center; margin-top: 10px;">
+                <button type="submit"
+                        style="background-color: #007bff; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;">
+                    Register
+                </button>
+            </div>
+        </form>
+
+        <div style="text-align: center; margin-top: 20px;">
+            <a asp-controller="Account" asp-action="Login" style="text-decoration: none; color: #007bff;">Already have an account? Log in</a>
+        </div>
+    </div>
+</div>

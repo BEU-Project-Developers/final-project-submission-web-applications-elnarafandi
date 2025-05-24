@@ -1,0 +1,24 @@
+﻿@model UserRolesDto
+
+
+<div class="container my-4">
+
+    <!-- Heading -->
+    <h1 class="text-center text-dark mb-4">User Detail</h1>
+
+    <!-- User Details Section -->
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <!-- Full Name -->
+            <p><strong>Full Name:</strong> @Model.FullName</p>
+
+            <!-- Username -->
+            <p><strong>Username:</strong> @Model.UserName</p>
+
+            <p><strong>Email:</strong> @Model.Email</p>
+
+            <p><strong>Role:</strong> @string.Join(",", Model.Roles)</p>
+
+        </div>
+    </div>
+</div>

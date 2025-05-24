@@ -1,0 +1,44 @@
+﻿@model LoginVM
+
+@{
+    ViewData["Title"] = "Log in Page";
+}
+
+
+<div style="display: flex; justify-content: center; align-items: center; min-height: 100vh;">
+    <div style="width: 100%; max-width: 400px; background-color: #fff; padding: 30px; border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+        <h2 style="text-align: center; margin-bottom: 30px; color: #333;">Log in</h2>
+
+        <form method="post" asp-action="Login">
+
+            <div style="color: red; margin-bottom: 10px;">
+                <div class="text-danger" asp-validation-summary="All"></div>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <label for="EmailOrUsername" style="display: block; margin-bottom: 6px; font-weight: bold;">Username or Email</label>
+                <input type="text" asp-for="EmailOrUsername"
+                       style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;" />
+                <span asp-validation-for="EmailOrUsername" style="color: red; font-size: 0.9rem;"></span>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <label for="Password" style="display: block; margin-bottom: 6px; font-weight: bold;">Password</label>
+                <input type="password" asp-for="Password"
+                       style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;" />
+                <span asp-validation-for="Password" style="color: red; font-size: 0.9rem;"></span>
+            </div>
+
+            <div style="text-align: center; margin-top: 10px;">
+                <button type="submit"
+                        style="background-color: #007bff; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;">
+                    Login
+                </button>
+            </div>
+        </form>
+
+        <div style="text-align: center; margin-top: 20px;">
+            <a asp-controller="Account" asp-action="Register" style="text-decoration: none; color: #007bff;">Don't have an account? Register</a>
+        </div>
+    </div>
+</div>

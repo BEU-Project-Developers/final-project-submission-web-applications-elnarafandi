@@ -1,0 +1,69 @@
+﻿@model ProductEditVM
+
+
+<div class="container my-4">
+
+    <!-- Heading -->
+    <h1 class="text-center text-dark mb-4">Edit Product</h1>
+
+
+    <!-- Product Edit Form Section -->
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            @foreach (var item in Model.ProductImages)
+            {
+                <img src="~/img/product/@item.Name" style="width:100px;height:100px" class="mb-2" />
+            }
+            <form method="post" asp-action="Edit" enctype="multipart/form-data">
+                <!-- Product Name -->
+                <div class="mb-3">
+                    <label for="Name" class="form-label">Name</label>
+                    <input type="text" class="form-control" id="Name" asp-for="Name" required />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+
+                <!-- Product Price -->
+                <div class="mb-3">
+                    <label for="Price" class="form-label">Price</label>
+                    <input type="number" class="form-control" id="Price" asp-for="Price" step="0.01" required />
+                    <span asp-validation-for="Price" class="text-danger"></span>
+                </div>
+
+                <!-- Product Description -->
+                <div class="mb-3">
+                    <label for="Description" class="form-label">Description</label>
+                    <input type="text" class="form-control" id="Description" asp-for="Description" required />
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+
+                <!-- Product Size -->
+                <div class="mb-3">
+                    <label for="Size" class="form-label">Size</label>
+                    <input type="text" class="form-control" id="Size" asp-for="Size" required />
+                    <span asp-validation-for="Size" class="text-danger"></span>
+                </div>
+
+                <!-- Product Category -->
+                <div class="mb-3">
+                    <label for="CategoryId" class="form-label">Category</label>
+                    <select asp-for="CategoryId" class="form-control" asp-items="@ViewBag.categories">
+                        <option>Please select one</option>
+                    </select>
+                    <span asp-validation-for="CategoryId" class="text-danger"></span>
+                </div>
+
+                <!-- Product Images -->
+                <div class="mb-3">
+                    <label for="ProductImages" class="form-label">Product Images</label>
+                    <input type="file" class="form-control" id="ProductImages" asp-for="UploadImages" multiple />
+                    <span asp-validation-for="UploadImages" class="text-danger"></span>
+                </div>
+
+                <!-- Submit Button -->
+                <div class="d-flex justify-content-center">
+                    <button type="submit" class="btn btn-primary">Edit Product</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

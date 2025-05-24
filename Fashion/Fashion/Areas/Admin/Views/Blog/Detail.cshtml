@@ -1,0 +1,36 @@
+﻿@model Blog
+
+<div class="container my-4">
+
+    <!-- Heading -->
+    <h1 class="text-center text-dark mb-4">Blog Detail</h1>
+
+    <!-- Blog Details Section -->
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <!-- Blog Title -->
+            <p><strong>Title:</strong> @Model.Title</p>
+
+            <!-- Blog Description -->
+            <p><strong>Description:</strong></p>
+            <p class="lead">
+                @Model.Description
+            </p>
+
+            <!-- Blog Image -->
+            <div class="mb-4 text-center">
+                <p><strong>Image:</strong></p>
+                <img src="~/img/blog/@Model.Image" alt="Web Development Image" class="img-fluid" style="max-width: 100%; height: auto;" />
+            </div>
+
+            <!-- Created Time -->
+            <p class="text-muted text-center">
+                <strong>Created on:</strong> @Model.CreatedTime
+            </p>
+        </div>
+    </div>
+</div>
+
+
+
+

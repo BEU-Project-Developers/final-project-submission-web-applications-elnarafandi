@@ -1,0 +1,24 @@
+﻿@model Blog
+
+@{
+    ViewData["Title"] = "Blog Detail Page";
+}
+
+
+<div style="width: 100%; max-width: 1140px; margin: 0 auto; padding: 20px;">
+    <div style="display: flex; flex-direction: column; align-items: center;">
+        <h1 style="font-size: 2.5rem; color: #333; font-weight: bold; margin-bottom: 10px; text-align: center;">
+            @Model.Title
+        </h1>
+        <p style="font-size: 1rem; color: #777; margin-bottom: 20px;">
+            Published on: @Model.CreatedTime.ToString("MMMM d, yyyy")
+        </p>
+
+        <img src="~/img/blog/@Model.Image" alt="Blog Image"
+             style="width: 100%; height: auto; border-radius: 8px; margin-bottom: 20px;" />
+
+        <p style="font-size: 1.1rem; line-height: 1.8; color: #555; text-align: justify;">
+            @Model.Description
+        </p>
+    </div>
+</div>

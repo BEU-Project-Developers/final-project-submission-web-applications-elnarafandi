@@ -1,0 +1,43 @@
+﻿@model Product
+
+
+<div class="container my-4">
+
+    <!-- Heading -->
+    <h1 class="text-center text-dark mb-4">Product Detail</h1>
+
+    <!-- Product Details Section -->
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <!-- Product Name -->
+            <p><strong>Name:</strong> @Model.Name</p>
+
+            <!-- Product Price -->
+            <p><strong>Price:</strong> $@Model.Price</p>
+
+
+            <!-- Product Size -->
+            <p><strong>Size:</strong> @Model.Size</p>
+
+            <!-- Product Description -->
+            <p><strong>Description:</strong></p>
+            <p class="lead">
+                @Model.Description
+            </p>
+
+
+            <!-- Product Category -->
+            <p><strong>Category:</strong> @Model.Category.Name</p>
+
+            <!-- Product Images -->
+            <div class="mb-4 text-center">
+                <p><strong>Images:</strong></p>
+                @foreach(var image in Model.ProductImages)
+                {
+                    <img src="~/img/product/@image.Name" alt="T-shirt Image" class="img-fluid mb-2" style="width: 200px;; height: 200px;" />
+                }
+            </div>
+
+        </div>
+    </div>
+</div>

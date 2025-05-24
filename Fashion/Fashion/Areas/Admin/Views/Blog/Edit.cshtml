@@ -1,0 +1,44 @@
+﻿@model BlogEditVM
+
+<div class="container my-4">
+
+    <!-- Heading -->
+    <h1 class="text-center text-dark mb-4">Edit Blog</h1>
+
+    <!-- Blog Edit Form Section -->
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <form method="post" asp-action="Edit" enctype="multipart/form-data">
+                <!-- Blog Title -->
+                <div class="mb-3">
+                    <label for="Title" class="form-label">Title</label>
+                    <input type="text" class="form-control" id="Title" asp-for="Title" required/>
+                    <span asp-validation-for="Title" class="text-danger"></span>
+                </div>
+
+                <!-- Blog Description -->
+                <div class="mb-3">
+                    <label for="Description" class="form-label">Description</label>
+                    <input type="text" class="form-control" id="Title" asp-for="Description" required/>
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+
+                <!-- Blog Image -->
+                <div class="mb-3">
+                    <label for="Image" class="form-label">Blog Image</label>
+                    <div class="mb-2">
+                        <img src="~/img/blog/@Model.Image" style="width:100px;height:100px" />
+                    </div>
+                    <input type="file" class="form-control" id="Image" asp-for="UploadImage"/>
+                    <span asp-validation-for="UploadImage" class="text-danger"></span>
+                </div>
+
+                <!-- Submit Button -->
+                <div class="d-flex justify-content-center">
+                    <button type="submit" class="btn btn-primary">Edit Blog</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+

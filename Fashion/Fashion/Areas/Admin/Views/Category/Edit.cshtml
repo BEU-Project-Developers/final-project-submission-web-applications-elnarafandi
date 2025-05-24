@@ -1,0 +1,28 @@
+﻿@model Category
+
+<div class="container my-4">
+
+    <!-- Heading -->
+    <h1 class="text-center text-dark mb-4">Edit Category</h1>
+
+    <!-- Category Edit Form Section -->
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <form method="post" asp-action="Edit">
+                <!-- Category Name -->
+                <div class="mb-3">
+                    <label for="Name" class="form-label">Name</label>
+                    <input type="text" class="form-control" id="Name" asp-for="Name" required />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+
+                <!-- Submit Button -->
+                <div class="d-flex justify-content-center">
+                    <button type="submit" class="btn btn-primary">Update Category</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
