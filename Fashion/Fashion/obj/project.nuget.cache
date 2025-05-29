@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "T1HoZA4zL2c=",
+  "dgSpecHash": "Bq6ry8PPaDE=",
   "success": true,
-  "projectFilePath": "C:\\Users\\Elnare\\Desktop\\University Tasks\\Fashion-MVC\\Fashion\\Fashion\\Fashion.csproj",
+  "projectFilePath": "C:\\Users\\Elnare\\Desktop\\University Tasks\\final-project-submission-web-applications-elnarafandi\\Fashion\\Fashion\\Fashion.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Elnare\\.nuget\\packages\\azure.core\\1.38.0\\azure.core.1.38.0.nupkg.sha512",
     "C:\\Users\\Elnare\\.nuget\\packages\\azure.identity\\1.11.4\\azure.identity.1.11.4.nupkg.sha512",

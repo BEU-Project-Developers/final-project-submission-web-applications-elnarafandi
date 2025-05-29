@@ -2,12 +2,14 @@
 using Fashion.Data;
 using Fashion.Helpers.Extensions;
 using Fashion.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace Fashion.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = "Admin")]
     public class BlogController : Controller
     {
         private readonly AppDbContext _context;
@@ -41,28 +43,43 @@ namespace Fashion.Areas.Admin.Controllers
                 ModelState.AddModelError("UploadImage", "Image size must be smaller than 500KB");
                 return View(request);
             }
-            string fileName = Guid.NewGuid().ToString() + "-" + request.UploadImage.FileName;
-            string filePath = _env.GenerateFilePath("img/blog", fileName);
-
-            using (FileStream stream = new FileStream(filePath, FileMode.Create))
+            try
             {
-                await request.UploadImage.CopyToAsync(stream);
+                string fileName = Guid.NewGuid().ToString() + "-" + request.UploadImage.FileName;
+                string filePath = _env.GenerateFilePath("img/blog", fileName);
+
+                using (FileStream stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await request.UploadImage.CopyToAsync(stream);
+                }
+                await _context.Blogs.AddAsync(new Blog { Image = fileName, Title = request.Title, Description = request.Description });
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
             }
-            await _context.Blogs.AddAsync(new Blog { Image=fileName, Title=request.Title, Description=request.Description});
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            catch(Exception ex)
+            {
+                ModelState.AddModelError("", "An error occurred while creating the blog post.");
+                return View(request);
+            }
         }
         [HttpPost]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null) return BadRequest();
-            var blog = await _context.Blogs.FirstOrDefaultAsync(b => b.Id == id);
-            if (blog == null) return NotFound();
-            string filePath = _env.GenerateFilePath("img/blog", blog.Image);
-            filePath.DeleteFile();
-            _context.Blogs.Remove(blog);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            try
+            {
+                var blog = await _context.Blogs.FirstOrDefaultAsync(b => b.Id == id);
+                if (blog == null) return NotFound();
+                string filePath = _env.GenerateFilePath("img/blog", blog.Image);
+                filePath.DeleteFile();
+                _context.Blogs.Remove(blog);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "An error occurred while deleting the blog post.");
+            }
         }
         [HttpGet]
         public async Task<IActionResult> Detail(int? id)
@@ -85,35 +102,43 @@ namespace Fashion.Areas.Admin.Controllers
         public async Task<IActionResult> Edit(int? id, BlogEditVM request)
         {
             if (id == null) return BadRequest();
-            var blog = await _context.Blogs.FirstOrDefaultAsync(b => b.Id == id);
-            if (blog == null) return NotFound();
-            if (request.UploadImage != null)
+            try
             {
-                if (!request.UploadImage.CheckFileType("image/"))
+                var blog = await _context.Blogs.FirstOrDefaultAsync(b => b.Id == id);
+                if (blog == null) return NotFound();
+                if (request.UploadImage != null)
                 {
-                    ModelState.AddModelError("UploadImage", "Input type must be only image");
-                    return View(request);
-                }
-                if (!request.UploadImage.CheckFileSize(500))
-                {
-                    ModelState.AddModelError("UploadImage", "Image size must be smaller than 500KB");
-                    return View(request);
-                }
-                string oldFilePath = _env.GenerateFilePath("img/blog", blog.Image);
-                oldFilePath.DeleteFile();
-                string fileName = Guid.NewGuid().ToString() + "-" + request.UploadImage.FileName;
-                string filePath = _env.GenerateFilePath("img/blog", fileName);
+                    if (!request.UploadImage.CheckFileType("image/"))
+                    {
+                        ModelState.AddModelError("UploadImage", "Input type must be only image");
+                        return View(request);
+                    }
+                    if (!request.UploadImage.CheckFileSize(500))
+                    {
+                        ModelState.AddModelError("UploadImage", "Image size must be smaller than 500KB");
+                        return View(request);
+                    }
+                    string oldFilePath = _env.GenerateFilePath("img/blog", blog.Image);
+                    oldFilePath.DeleteFile();
+                    string fileName = Guid.NewGuid().ToString() + "-" + request.UploadImage.FileName;
+                    string filePath = _env.GenerateFilePath("img/blog", fileName);
 
-                using (FileStream stream = new FileStream(filePath, FileMode.Create))
-                {
-                    await request.UploadImage.CopyToAsync(stream);
+                    using (FileStream stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await request.UploadImage.CopyToAsync(stream);
+                    }
+                    blog.Image = fileName;
                 }
-                blog.Image = fileName;
+                blog.Title = request.Title;
+                blog.Description = request.Description;
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
             }
-            blog.Title = request.Title;
-            blog.Description = request.Description;
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", "An error occurred while updating the blog post.");
+                return View(request);
+            }
         }
     }
 }

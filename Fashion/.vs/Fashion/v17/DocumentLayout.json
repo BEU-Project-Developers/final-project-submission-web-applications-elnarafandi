@@ -1,12 +1,71 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\Elnare\\Desktop\\University Tasks\\Fashion-MVC\\Fashion\\",
-  "Documents": [],
+  "WorkspaceRootPath": "C:\\Users\\Elnare\\Desktop\\University Tasks\\final-project-submission-web-applications-elnarafandi\\Fashion\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{331EB750-88D6-42C0-A331-15773984C6B7}|Fashion\\Fashion.csproj|c:\\users\\elnare\\desktop\\university tasks\\final-project-submission-web-applications-elnarafandi\\fashion\\fashion\\areas\\admin\\controllers\\productcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{331EB750-88D6-42C0-A331-15773984C6B7}|Fashion\\Fashion.csproj|solutionrelative:fashion\\areas\\admin\\controllers\\productcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{331EB750-88D6-42C0-A331-15773984C6B7}|Fashion\\Fashion.csproj|c:\\users\\elnare\\desktop\\university tasks\\final-project-submission-web-applications-elnarafandi\\fashion\\fashion\\areas\\admin\\controllers\\blogcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{331EB750-88D6-42C0-A331-15773984C6B7}|Fashion\\Fashion.csproj|solutionrelative:fashion\\areas\\admin\\controllers\\blogcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{331EB750-88D6-42C0-A331-15773984C6B7}|Fashion\\Fashion.csproj|c:\\users\\elnare\\desktop\\university tasks\\final-project-submission-web-applications-elnarafandi\\fashion\\fashion\\areas\\admin\\controllers\\categorycontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{331EB750-88D6-42C0-A331-15773984C6B7}|Fashion\\Fashion.csproj|solutionrelative:fashion\\areas\\admin\\controllers\\categorycontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
       "VerticalTabListWidth": 256,
-      "DocumentGroups": []
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "ProductController.cs",
+              "DocumentMoniker": "C:\\Users\\Elnare\\Desktop\\University Tasks\\final-project-submission-web-applications-elnarafandi\\Fashion\\Fashion\\Areas\\Admin\\Controllers\\ProductController.cs",
+              "RelativeDocumentMoniker": "Fashion\\Areas\\Admin\\Controllers\\ProductController.cs",
+              "ToolTip": "C:\\Users\\Elnare\\Desktop\\University Tasks\\final-project-submission-web-applications-elnarafandi\\Fashion\\Fashion\\Areas\\Admin\\Controllers\\ProductController.cs",
+              "RelativeToolTip": "Fashion\\Areas\\Admin\\Controllers\\ProductController.cs",
+              "ViewState": "AQIAAHEAAAAAAAAAAAAAAN0AAAA3AAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-29T12:39:11.279Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "BlogController.cs",
+              "DocumentMoniker": "C:\\Users\\Elnare\\Desktop\\University Tasks\\final-project-submission-web-applications-elnarafandi\\Fashion\\Fashion\\Areas\\Admin\\Controllers\\BlogController.cs",
+              "RelativeDocumentMoniker": "Fashion\\Areas\\Admin\\Controllers\\BlogController.cs",
+              "ToolTip": "C:\\Users\\Elnare\\Desktop\\University Tasks\\final-project-submission-web-applications-elnarafandi\\Fashion\\Fashion\\Areas\\Admin\\Controllers\\BlogController.cs",
+              "RelativeToolTip": "Fashion\\Areas\\Admin\\Controllers\\BlogController.cs",
+              "ViewState": "AQIAAG0AAAAAAAAAAADwvwAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-29T12:32:06.868Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "CategoryController.cs",
+              "DocumentMoniker": "C:\\Users\\Elnare\\Desktop\\University Tasks\\final-project-submission-web-applications-elnarafandi\\Fashion\\Fashion\\Areas\\Admin\\Controllers\\CategoryController.cs",
+              "RelativeDocumentMoniker": "Fashion\\Areas\\Admin\\Controllers\\CategoryController.cs",
+              "ToolTip": "C:\\Users\\Elnare\\Desktop\\University Tasks\\final-project-submission-web-applications-elnarafandi\\Fashion\\Fashion\\Areas\\Admin\\Controllers\\CategoryController.cs",
+              "RelativeToolTip": "Fashion\\Areas\\Admin\\Controllers\\CategoryController.cs",
+              "ViewState": "AQIAABUAAAAAAAAAAAAYwHkAAAABAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-29T12:20:35.533Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
     }
   ]
 }

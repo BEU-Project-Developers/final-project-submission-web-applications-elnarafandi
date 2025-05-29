@@ -2,6 +2,7 @@
 using Fashion.Data;
 using Fashion.Helpers.Extensions;
 using Fashion.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -9,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 namespace Fashion.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = "Admin")]
     public class ProductController : Controller
     {
         private readonly AppDbContext _context;
@@ -45,52 +47,60 @@ namespace Fashion.Areas.Admin.Controllers
             }).ToListAsync();
             ViewBag.categories = categories;
 
-            foreach (var item in request.ProductImages)
+            try
             {
-                if (!item.CheckFileType("image/"))
+                foreach (var item in request.ProductImages)
                 {
-                    ModelState.AddModelError("ProductImages", "Input type mus be only image");
-                    return View(request);
+                    if (!item.CheckFileType("image/"))
+                    {
+                        ModelState.AddModelError("ProductImages", "Input type mus be only image");
+                        return View(request);
+                    }
+
+                    if (!item.CheckFileSize(500))
+                    {
+                        ModelState.AddModelError("ProductImages", "Image size must be smaller than 500KB");
+                        return View(request);
+                    }
                 }
 
-                if (!item.CheckFileSize(500))
+                List<ProductImage> productImages = new();
+
+                foreach (var item in request.ProductImages)
                 {
-                    ModelState.AddModelError("ProductImages", "Image size must be smaller than 500KB");
-                    return View(request);
+                    string fileName = Guid.NewGuid().ToString() + "-" + item.FileName;
+
+                    string filePath = _env.GenerateFilePath("img/product", fileName);
+
+                    using (FileStream stream = new(filePath, FileMode.Create))
+                    {
+                        await item.CopyToAsync(stream);
+                    }
+
+                    productImages.Add(new ProductImage { Name = fileName, IsMain = false });
                 }
+
+                productImages.FirstOrDefault().IsMain = true;
+
+                Product product = new Product();
+                product.Name = request.Name;
+                product.Size = request.Size;
+                product.Description = request.Description;
+                product.Price = request.Price;
+                product.CategoryId = (int)request.CategoryId;
+                product.ProductImages = productImages;
+
+                await _context.Products.AddAsync(product);
+
+                await _context.SaveChangesAsync();
+
+                return RedirectToAction(nameof(Index));
             }
-
-            List<ProductImage> productImages = new();
-
-            foreach (var item in request.ProductImages)
+            catch (Exception ex)
             {
-                string fileName = Guid.NewGuid().ToString() + "-" + item.FileName;
-
-                string filePath = _env.GenerateFilePath("img/product", fileName);
-
-                using (FileStream stream = new(filePath, FileMode.Create))
-                {
-                    await item.CopyToAsync(stream);
-                }
-
-                productImages.Add(new ProductImage { Name = fileName, IsMain = false });
+                ModelState.AddModelError("", "An error occurred while creating the product.");
+                return View(request);
             }
-
-            productImages.FirstOrDefault().IsMain = true;
-
-            Product product = new Product();
-            product.Name = request.Name;
-            product.Size = request.Size;
-            product.Description = request.Description;
-            product.Price = request.Price;
-            product.CategoryId = (int)request.CategoryId;
-            product.ProductImages = productImages;
-
-            await _context.Products.AddAsync(product);
-
-            await _context.SaveChangesAsync();
-
-            return RedirectToAction(nameof(Index));
 
         }
         [HttpGet]
@@ -106,19 +116,26 @@ namespace Fashion.Areas.Admin.Controllers
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null) return BadRequest();
-            Product product = await _context.Products.Include(p => p.ProductImages).FirstOrDefaultAsync(p => p.Id == id);
-            if (product == null) return NotFound();
-
-            foreach (var item in product.ProductImages)
+            try
             {
-                string filePath = _env.GenerateFilePath("img/product", item.Name);
+                Product product = await _context.Products.Include(p => p.ProductImages).FirstOrDefaultAsync(p => p.Id == id);
+                if (product == null) return NotFound();
 
-                filePath.DeleteFile();
+                foreach (var item in product.ProductImages)
+                {
+                    string filePath = _env.GenerateFilePath("img/product", item.Name);
+
+                    filePath.DeleteFile();
+                }
+
+                _context.Products.Remove(product);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
             }
-
-            _context.Products.Remove(product);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            catch (Exception ex)
+            {
+                return StatusCode(500, "An error occurred while deleting the product.");
+            }
         }
         [HttpGet]
         public async Task<IActionResult> Edit(int? id)
@@ -145,62 +162,70 @@ namespace Fashion.Areas.Admin.Controllers
             }).ToListAsync();
             ViewBag.categories = categories;
             if (id == null) return BadRequest();
-            Product product = await _context.Products.Include(p => p.ProductImages).FirstOrDefaultAsync(p => p.Id == id);
-            if (product == null) return NotFound();
-            
-            if (request.UploadImages is not null)
+            try
             {
-                foreach (var item in request.UploadImages)
+                Product product = await _context.Products.Include(p => p.ProductImages).FirstOrDefaultAsync(p => p.Id == id);
+                if (product == null) return NotFound();
+
+                if (request.UploadImages is not null)
                 {
-                    if (!item.CheckFileType("image/"))
+                    foreach (var item in request.UploadImages)
                     {
-                        ModelState.AddModelError("UploadImages", "Input type mus be only image");
-                        return View(request);
+                        if (!item.CheckFileType("image/"))
+                        {
+                            ModelState.AddModelError("UploadImages", "Input type mus be only image");
+                            return View(request);
+                        }
+
+                        if (!item.CheckFileSize(500))
+                        {
+                            ModelState.AddModelError("UploadImages", "Image size must be smaller than 500KB");
+                            return View(request);
+                        }
                     }
 
-                    if (!item.CheckFileSize(500))
+                    foreach (var item in product.ProductImages)
                     {
-                        ModelState.AddModelError("UploadImages", "Image size must be smaller than 500KB");
-                        return View(request);
+                        string filePath = _env.GenerateFilePath("img/product", item.Name);
+
+                        filePath.DeleteFile();
                     }
-                }
+                    _context.ProductImages.RemoveRange(product.ProductImages);
 
-                foreach (var item in product.ProductImages)
-                {
-                    string filePath = _env.GenerateFilePath("img/product", item.Name);
+                    List<ProductImage> productImages = new();
 
-                    filePath.DeleteFile();
-                }
-                _context.ProductImages.RemoveRange(product.ProductImages);
-
-                List<ProductImage> productImages = new();
-
-                foreach (var item in request.UploadImages)
-                {
-                    string fileName = Guid.NewGuid().ToString() + "-" + item.FileName;
-
-                    string filePath = _env.GenerateFilePath("img/product", fileName);
-
-                    using (FileStream stream = new(filePath, FileMode.Create))
+                    foreach (var item in request.UploadImages)
                     {
-                        await item.CopyToAsync(stream);
+                        string fileName = Guid.NewGuid().ToString() + "-" + item.FileName;
+
+                        string filePath = _env.GenerateFilePath("img/product", fileName);
+
+                        using (FileStream stream = new(filePath, FileMode.Create))
+                        {
+                            await item.CopyToAsync(stream);
+                        }
+
+                        productImages.Add(new ProductImage { Name = fileName, IsMain = false, ProductId = product.Id });
                     }
 
-                    productImages.Add(new ProductImage { Name = fileName, IsMain = false, ProductId = product.Id });
+                    productImages.FirstOrDefault().IsMain = true;
+                    await _context.ProductImages.AddRangeAsync(productImages);
+
                 }
+                product.Name = request.Name;
+                product.Description = request.Description;
+                product.Price = request.Price;
+                product.Size = request.Size;
+                product.CategoryId = request.CategoryId;
 
-                productImages.FirstOrDefault().IsMain = true;
-                await _context.ProductImages.AddRangeAsync(productImages);
-
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
             }
-            product.Name = request.Name;
-            product.Description = request.Description;
-            product.Price = request.Price;
-            product.Size = request.Size;
-            product.CategoryId = request.CategoryId;
-
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", "An error occurred while updating the product.");
+                return View(request);
+            }
         }
 
 

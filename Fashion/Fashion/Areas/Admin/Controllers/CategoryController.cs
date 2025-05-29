@@ -1,5 +1,6 @@
 ﻿using Fashion.Data;
 using Fashion.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -7,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 namespace Fashion.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = "Admin")]
     public class CategoryController : Controller
     {
         private readonly AppDbContext _context;
@@ -28,26 +30,41 @@ namespace Fashion.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Category request)
         {
-            var category = await _context.Categories.FirstOrDefaultAsync(m => m.Name == request.Name);
-            if (category != null)
+            try
             {
-                ModelState.AddModelError("Name", "This named category already exits");
+                var category = await _context.Categories.FirstOrDefaultAsync(m => m.Name == request.Name);
+                if (category != null)
+                {
+                    ModelState.AddModelError("Name", "This named category already exits");
+                    return View(request);
+                }
+                await _context.Categories.AddAsync(request);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            catch(Exception ex)
+            {
+                ModelState.AddModelError("", "An error occurred while creating the category.");
                 return View(request);
             }
-            await _context.Categories.AddAsync(request);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id is null) return BadRequest();
-            var category = await _context.Categories.FirstOrDefaultAsync(c => c.Id == id);
-            if (category is null) return NotFound();
-            _context.Categories.Remove(category);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            try
+            {
+                var category = await _context.Categories.FirstOrDefaultAsync(c => c.Id == id);
+                if (category is null) return NotFound();
+                _context.Categories.Remove(category);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "An error occurred while deleting the category.");
+            }
         }
         [HttpGet]
         public async Task<IActionResult> Detail(int? id)
@@ -72,26 +89,34 @@ namespace Fashion.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Category request)
         {
-            var categoryToUpdate = await _context.Categories.FirstOrDefaultAsync(m => m.Id == request.Id);
-            if (categoryToUpdate == null)
+            try
             {
-                return NotFound();
+                var categoryToUpdate = await _context.Categories.FirstOrDefaultAsync(m => m.Id == request.Id);
+                if (categoryToUpdate == null)
+                {
+                    return NotFound();
+                }
+
+
+                var existCategory = await _context.Categories.FirstOrDefaultAsync(m => m.Name == request.Name && m.Id != categoryToUpdate.Id);
+
+                if (existCategory != null)
+                {
+                    ModelState.AddModelError("Name", "This named category already exits");
+                    return View(request);
+                }
+
+                categoryToUpdate.Name = request.Name;
+
+                await _context.SaveChangesAsync();
+
+                return RedirectToAction(nameof(Index));
             }
-
-
-            var existCategory = await _context.Categories.FirstOrDefaultAsync(m => m.Name == request.Name && m.Id!=categoryToUpdate.Id);
-
-            if (existCategory != null)
+            catch (Exception ex)
             {
-                ModelState.AddModelError("Name", "This named category already exits");
+                ModelState.AddModelError("", "An error occurred while updating the category.");
                 return View(request);
             }
-
-            categoryToUpdate.Name = request.Name;
-
-            await _context.SaveChangesAsync();
-
-            return RedirectToAction(nameof(Index));
         }
     }
 }

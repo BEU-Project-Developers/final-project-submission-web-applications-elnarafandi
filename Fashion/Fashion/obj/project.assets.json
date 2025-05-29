@@ -7777,11 +7777,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Elnare\\Desktop\\University Tasks\\Fashion-MVC\\Fashion\\Fashion\\Fashion.csproj",
+      "projectUniqueName": "C:\\Users\\Elnare\\Desktop\\University Tasks\\final-project-submission-web-applications-elnarafandi\\Fashion\\Fashion\\Fashion.csproj",
       "projectName": "Fashion",
-      "projectPath": "C:\\Users\\Elnare\\Desktop\\University Tasks\\Fashion-MVC\\Fashion\\Fashion\\Fashion.csproj",
+      "projectPath": "C:\\Users\\Elnare\\Desktop\\University Tasks\\final-project-submission-web-applications-elnarafandi\\Fashion\\Fashion\\Fashion.csproj",
       "packagesPath": "C:\\Users\\Elnare\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Elnare\\Desktop\\University Tasks\\Fashion-MVC\\Fashion\\Fashion\\obj\\",
+      "outputPath": "C:\\Users\\Elnare\\Desktop\\University Tasks\\final-project-submission-web-applications-elnarafandi\\Fashion\\Fashion\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
