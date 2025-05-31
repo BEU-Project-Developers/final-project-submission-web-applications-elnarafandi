@@ -31,66 +31,43 @@ namespace Fashion.Controllers
             };
             return View(homeVM);
         }
-        public async Task<IActionResult> Cart()
-        {
-            List<BasketVM> basketDatas = [];
-            decimal total = 0;
-            if (_accessor.HttpContext.Request.Cookies["basket"] != null)
-            {
-                basketDatas = JsonConvert.DeserializeObject<List<BasketVM>>(_accessor.HttpContext.Request.Cookies["basket"]);
-            }
-            List<Product> products = new();
-            foreach (var item in basketDatas)
-            {
-                var product = await _context.Products.Include(m=>m.ProductImages).FirstOrDefaultAsync(m=>m.Id==item.ProductId);
-                products.Add(product);
-            }
-            foreach (var product in products)
-            {
-                total += product.Price;
-            }
-            return View(new BasketDetailVM
-            {
-                Products = products,
-                Total = total
-            });
-        }
-
         [HttpPost]
         public async Task<IActionResult> AddProductToBasket(int id)
         {
-            List<BasketVM> basketDatas = [];
-            decimal total = 0;
-            if (_accessor.HttpContext.Request.Cookies["basket"] != null)
+            var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+
+            if (string.IsNullOrEmpty(userId))
             {
-                basketDatas = JsonConvert.DeserializeObject<List<BasketVM>>(_accessor.HttpContext.Request.Cookies["basket"]);
+                return Unauthorized();
             }
-            List<Product> products = new();
-            foreach (var item in basketDatas)
+
+            var product = await _context.Products.FindAsync(id);
+            if (product == null)
             {
-                var product = await _context.Products.Include(m => m.ProductImages).FirstOrDefaultAsync(m => m.Id == item.ProductId);
-                products.Add(product);
+                return NotFound("Product not found.");
             }
-            basketDatas.Add(new BasketVM { ProductId = id });
-            _accessor.HttpContext.Response.Cookies.Append("basket", JsonConvert.SerializeObject(basketDatas));
-            return RedirectToAction("Cart");
+
+            var existingEntry = await _context.AppUserProducts
+                .FirstOrDefaultAsync(up => up.AppUserId == userId && up.ProductId == id);
+
+            if (existingEntry != null)
+            {
+                return BadRequest("Product is already in the basket.");
+            }
+
+            var appUserProduct = new AppUserProduct
+            {
+                AppUserId = userId,
+                ProductId = id
+            };
+
+            _context.AppUserProducts.Add(appUserProduct);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Index", "Cart");
         }
 
 
-        [HttpPost]
-        public async Task<IActionResult> Delete(int id)
-        {
-            List<BasketVM> basketDatas = [];
-            decimal total = 0;
-            if (_accessor.HttpContext.Request.Cookies["basket"] != null)
-            {
-                basketDatas = JsonConvert.DeserializeObject<List<BasketVM>>(_accessor.HttpContext.Request.Cookies["basket"]);
-            }
-            var existBasketData = basketDatas.FirstOrDefault(m => m.ProductId == id);
-            basketDatas.Remove(existBasketData);
-            _accessor.HttpContext.Response.Cookies.Append("basket", JsonConvert.SerializeObject(basketDatas));
-            return RedirectToAction("Cart");
-        }
 
     }
 }

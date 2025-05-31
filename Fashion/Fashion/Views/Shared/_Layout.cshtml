@@ -42,9 +42,13 @@
                 </form>
             </div>
         </div>
-        <div class="offcanvas__nav__option">
-            <a asp-controller="Home" asp-action="Cart"><img src="~/img/icon/cart.png" alt=""></a>
-        </div>
+        @if (User.Identity.IsAuthenticated)
+        {
+            <div class="offcanvas__nav__option">
+                <a asp-controller="Cart" asp-action="Index"><img src="~/img/icon/cart.png" alt=""></a>
+            </div>
+        }
+        
         <div id="mobile-menu-wrap"></div>
         
     </div>
@@ -103,11 +107,15 @@
                         </ul>
                     </nav>
                 </div>
-                <div class="col-lg-3 col-md-3">
-                    <div class="header__nav__option">
-                        <a asp-controller="Home" asp-action="Cart"><img src="~/img/icon/cart.png" alt=""></a>
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <div class="col-lg-3 col-md-3">
+                        <div class="header__nav__option">
+                            <a asp-controller="Cart" asp-action="Index"><img src="~/img/icon/cart.png" alt=""></a>
+                        </div>
                     </div>
-                </div>
+                }
+                
             </div>
             <div class="canvas__open"><i class="fa fa-bars"></i></div>
         </div>

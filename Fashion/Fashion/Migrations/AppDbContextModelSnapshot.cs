@@ -91,6 +91,30 @@ namespace Fashion.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
+            modelBuilder.Entity("Fashion.Models.AppUserProduct", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("AppUserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AppUserId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("AppUserProducts");
+                });
+
             modelBuilder.Entity("Fashion.Models.Blog", b =>
                 {
                     b.Property<int>("Id")
@@ -330,6 +354,25 @@ namespace Fashion.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("Fashion.Models.AppUserProduct", b =>
+                {
+                    b.HasOne("Fashion.Models.AppUser", "AppUser")
+                        .WithMany("AppUserProducts")
+                        .HasForeignKey("AppUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Fashion.Models.Product", "Product")
+                        .WithMany("AppUserProducts")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AppUser");
+
+                    b.Navigation("Product");
+                });
+
             modelBuilder.Entity("Fashion.Models.Product", b =>
                 {
                     b.HasOne("Fashion.Models.Category", "Category")
@@ -403,6 +446,11 @@ namespace Fashion.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Fashion.Models.AppUser", b =>
+                {
+                    b.Navigation("AppUserProducts");
+                });
+
             modelBuilder.Entity("Fashion.Models.Category", b =>
                 {
                     b.Navigation("Products");
@@ -410,6 +458,8 @@ namespace Fashion.Migrations
 
             modelBuilder.Entity("Fashion.Models.Product", b =>
                 {
+                    b.Navigation("AppUserProducts");
+
                     b.Navigation("ProductImages");
                 });
 #pragma warning restore 612, 618

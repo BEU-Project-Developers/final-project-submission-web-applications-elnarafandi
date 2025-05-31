@@ -10,5 +10,6 @@
         public Category Category { get; set; }
         public List<ProductImage> ProductImages { get; set; }
         public DateTime CreatedTime { get; set; }= DateTime.Now;
+        public List<AppUserProduct> AppUserProducts { get; set; }
     }
 }

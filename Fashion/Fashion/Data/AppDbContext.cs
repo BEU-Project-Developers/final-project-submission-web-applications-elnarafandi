@@ -11,5 +11,6 @@ namespace Fashion.Data
         public DbSet<Product> Products { get; set; }
         public DbSet<ProductImage> ProductImages { get; set; }
         public DbSet<Blog> Blogs { get; set; }
+        public DbSet<AppUserProduct> AppUserProducts { get; set; }
     }
 }

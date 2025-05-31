@@ -1,0 +1,81 @@
+﻿@model CartVM
+
+
+@{
+    ViewData["Title"] = "Cart Page";
+}
+
+
+
+<!-- Breadcrumb Section Begin -->
+<section class="breadcrumb-option">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="breadcrumb__text">
+                    <h4>Shopping Cart</h4>
+                    <div class="breadcrumb__links">
+                        <a asp-controller="Home" asp-action="Index">Home</a>
+                        <a asp-controller="Shop" asp-action="Index">Shop</a>
+                        <span>Shopping Cart</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Breadcrumb Section End -->
+<!-- Shopping Cart Section Begin -->
+<section class="shopping-cart spad">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="shopping__cart__table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Product</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                           
+                                @foreach (var product in Model.Products)
+                                {
+                                    <tr>
+                                        <td class="product__cart__item">
+                                            <div class="product__cart__item__pic">
+                                                <img src="~/img/product/@product.ProductImages.FirstOrDefault(m=>m.IsMain==true).Name" style="width:100px; height:100px;" alt="">
+                                            </div>
+                                            <div class="product__cart__item__text">
+                                                <h6>@product.Name</h6>
+                                                <h5>$@product.Price</h5>
+                                            </div>
+                                        </td>
+                                        <td class="cart__close">
+                                            <form asp-action="Delete" asp-route-id="@product.Id" method="post" style="display:inline;">
+                                                <button type="submit" style="background:none; border:none; color:#000; cursor:pointer; padding:0;">
+                                                    <i class="fa fa-close"></i>
+                                                </button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                }
+                            
+                            
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="cart__total">
+                    <h6>Cart total</h6>
+                    <ul>
+                        <li>Total <span>$ @Model.TotalPrice</span></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Shopping Cart Section End -->

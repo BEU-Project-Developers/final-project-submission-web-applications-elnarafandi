@@ -13,7 +13,10 @@ namespace Fashion.Controllers
         }
         public async Task<IActionResult> Index(string category, string sortOrder, string sortCreatedTime)
         {
-            var productsQuery = _context.Products.Include(p => p.ProductImages).Include(p => p.Category).AsQueryable();
+            var productsQuery =  _context.Products.Include(p => p.ProductImages).Include(p => p.Category).AsQueryable();
+
+            var categories= await _context.Categories.ToListAsync();
+            ViewBag.Categories = categories;
 
             if (!string.IsNullOrEmpty(category))
             {
