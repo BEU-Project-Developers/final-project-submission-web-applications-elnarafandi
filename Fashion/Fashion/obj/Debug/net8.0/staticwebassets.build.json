@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "CFwBql4n2mSJsH8YGPTZGZLStQ/9L7QMa5lkk4rPCD4=",
+  "Hash": "Ytj550yU6/n18ITD4POmr4zjrSF91G+6hfNMk+01izI=",
   "Source": "Fashion",
   "BasePath": "_content/Fashion",
   "Mode": "Default",
@@ -35889,6 +35889,25 @@
       "OriginalItemSpec": "wwwroot\\img\\blog\\54307e0a-06a4-4669-9ff2-75250929be95-7.jpg"
     },
     {
+      "Identity": "C:\\Users\\Elnare\\Desktop\\University Tasks\\final-project-submission-web-applications-elnarafandi\\Fashion\\Fashion\\wwwroot\\img\\blog\\8eaa2d29-5638-4426-bb24-d8e6e77c9ac4-9.jpg",
+      "SourceId": "Fashion",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Elnare\\Desktop\\University Tasks\\final-project-submission-web-applications-elnarafandi\\Fashion\\Fashion\\wwwroot\\",
+      "BasePath": "_content/Fashion",
+      "RelativePath": "img/blog/8eaa2d29-5638-4426-bb24-d8e6e77c9ac4-9.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\img\\blog\\8eaa2d29-5638-4426-bb24-d8e6e77c9ac4-9.jpg"
+    },
+    {
       "Identity": "C:\\Users\\Elnare\\Desktop\\University Tasks\\final-project-submission-web-applications-elnarafandi\\Fashion\\Fashion\\wwwroot\\img\\blog\\blog-1.jpg",
       "SourceId": "Fashion",
       "SourceType": "Discovered",
@@ -36609,6 +36628,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\img\\product\\33ca10e5-b86e-42c9-b9a7-3aefa86b95bc-product-4.jpg"
+    },
+    {
+      "Identity": "C:\\Users\\Elnare\\Desktop\\University Tasks\\final-project-submission-web-applications-elnarafandi\\Fashion\\Fashion\\wwwroot\\img\\product\\3fa32aae-76b2-4402-add1-c14c0663fa0e-1.jpg",
+      "SourceId": "Fashion",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Elnare\\Desktop\\University Tasks\\final-project-submission-web-applications-elnarafandi\\Fashion\\Fashion\\wwwroot\\",
+      "BasePath": "_content/Fashion",
+      "RelativePath": "img/product/3fa32aae-76b2-4402-add1-c14c0663fa0e-1.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\img\\product\\3fa32aae-76b2-4402-add1-c14c0663fa0e-1.jpg"
     },
     {
       "Identity": "C:\\Users\\Elnare\\Desktop\\University Tasks\\final-project-submission-web-applications-elnarafandi\\Fashion\\Fashion\\wwwroot\\img\\product\\7081f360-bf12-41af-93ef-82b4138e372f-product-9.jpg",
